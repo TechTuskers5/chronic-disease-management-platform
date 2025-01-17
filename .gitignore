@@ -8,6 +8,7 @@
 /frontend/coverage/
 /frontend/dist/
 /frontend/scripts/
+/frontend/expo-env.d.ts
 
 # Logs
 *.log
@@ -59,3 +60,4 @@ coverage/
 # Misc
 *.bak
 *.tmp
+

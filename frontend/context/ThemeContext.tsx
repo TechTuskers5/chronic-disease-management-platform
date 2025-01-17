@@ -10,6 +10,10 @@ interface ThemeContextType {
     textSecondary: string;
     accent1: string;
     accent2: string;
+    accent3: string;
+    accent4: string;
+    success: string;
+    error: string;
   };
 }
 
@@ -18,14 +22,18 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const theme: ThemeContextType = {
     colors: {
-      primary: '#6C63FF',
-      secondary: '#4CAF50',
-      background: '#F0F4F8',
+      primary: '#4A90E2',
+      secondary: '#50E3C2',
+      background: '#F8F9FB',
       surface: '#FFFFFF',
-      text: '#1A1A1A',
-      textSecondary: '#6B7280',
+      text: '#2C3E50',
+      textSecondary: '#7F8C8D',
       accent1: '#FF6B6B',
-      accent2: '#4ECDC4',
+      accent2: '#FFA36B',
+      accent3: '#FFC86B',
+      accent4: '#6BFFD3',
+      success: '#4CAF50',
+      error: '#F44336',
     },
   };
 
