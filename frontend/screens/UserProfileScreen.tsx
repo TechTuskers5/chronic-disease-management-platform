@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import GradientBackground from '../components/GradientBackground';
 import Card from '../components/Card';
+import ElegantButton from '@/components/ElegantButton';
+
 
 const UserProfileScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -60,9 +62,12 @@ const UserProfileScreen: React.FC = () => {
               source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
               style={styles.profileImage}
             />
-            <TouchableOpacity style={styles.editImageButton}>
-              <Ionicons name="camera" size={24} color={colors.primary} />
-            </TouchableOpacity>
+            <ElegantButton
+              title="Change Photo"
+              onPress={() => {/* Handle change photo */}}
+              color="secondary"
+              style={styles.changePhotoButton}
+            />
           </View>
           {renderField('Name', userDetails.name, 'name', 'person-outline')}
           {renderField('Email', userDetails.email, 'email', 'mail-outline')}
@@ -72,12 +77,12 @@ const UserProfileScreen: React.FC = () => {
           {renderField('Allergies', userDetails.allergies, 'allergies', 'alert-circle-outline')}
           {renderField('Medications', userDetails.medications, 'medications', 'medical-outline')}
 
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: colors.primary }]}
+          <ElegantButton
+            title={isEditing ? 'Save Profile' : 'Edit Profile'}
             onPress={isEditing ? handleSave : handleEdit}
-          >
-            <Text style={styles.buttonText}>{isEditing ? 'Save Profile' : 'Edit Profile'}</Text>
-          </TouchableOpacity>
+            color="primary"
+            style={styles.editButton}
+          />
         </View>
       </ScrollView>
     </GradientBackground>
@@ -116,14 +121,10 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
+    marginBottom: 10,
   },
-  editImageButton: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 8,
+  changePhotoButton: {
+    width: 150,
   },
   fieldContainer: {
     flexDirection: 'row',
@@ -154,16 +155,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 0,
   },
-  button: {
-    padding: 15,
-    borderRadius: 25,
-    alignItems: 'center',
+  editButton: {
     marginTop: 20,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 

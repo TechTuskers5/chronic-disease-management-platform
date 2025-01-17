@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, Image } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import Header from '../components/Header';
+import GradientBackground from '../components/GradientBackground';
 import Card from '../components/Card';
+import ElegantButton from '@/components/ElegantButton';
+
 
 const DoctorRecommendationsScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -44,40 +46,47 @@ const DoctorRecommendationsScreen: React.FC = () => {
           <Text style={[styles.ratingText, { color: colors.text }]}>{item.rating}</Text>
         </View>
       </View>
-      <TouchableOpacity 
-        style={[styles.bookButton, { backgroundColor: colors.primary }]} 
+      <ElegantButton
+        title="Book"
         onPress={() => handleBookAppointment(item.id)}
-      >
-        <Text style={styles.bookButtonText}>Book</Text>
-      </TouchableOpacity>
+        color="secondary"
+        style={styles.bookButton}
+      />
     </Card>
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header title="Find a Doctor" />
-      <View style={styles.searchContainer}>
-        <View style={[styles.searchInputContainer, { backgroundColor: colors.surface }]}>
-          <Ionicons name="search-outline" size={24} color={colors.primary} style={styles.searchIcon} />
-          <TextInput
-            style={[styles.searchInput, { color: colors.text }]}
-            placeholder="Search by name or specialty"
-            placeholderTextColor={colors.textSecondary}
-            value={searchTerm}
-            onChangeText={setSearchTerm}
+    <GradientBackground style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Find a Doctor</Text>
+      </View>
+      <View style={styles.content}>
+        <View style={styles.searchContainer}>
+          <View style={[styles.searchInputContainer, { backgroundColor: colors.surface }]}>
+            <Ionicons name="search-outline" size={24} color={colors.primary} style={styles.searchIcon} />
+            <TextInput
+              style={[styles.searchInput, { color: colors.text }]}
+              placeholder="Search by name or specialty"
+              placeholderTextColor={colors.textSecondary}
+              value={searchTerm}
+              onChangeText={setSearchTerm}
+            />
+          </View>
+          <ElegantButton
+            title="Search"
+            onPress={handleSearch}
+            color="primary"
+            style={styles.searchButton}
           />
         </View>
-        <TouchableOpacity style={[styles.searchButton, { backgroundColor: colors.primary }]} onPress={handleSearch}>
-          <Ionicons name="search" size={24} color="white" />
-        </TouchableOpacity>
+        <FlatList
+          data={doctors}
+          renderItem={renderDoctorItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.doctorsContainer}
+        />
       </View>
-      <FlatList
-        data={doctors}
-        renderItem={renderDoctorItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.doctorsContainer}
-      />
-    </View>
+    </GradientBackground>
   );
 };
 
@@ -85,9 +94,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header: {
+    paddingTop: 60,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+  },
   searchContainer: {
     flexDirection: 'row',
-    padding: 20,
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
   searchInputContainer: {
     flex: 1,
@@ -106,11 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   searchButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 100,
   },
   doctorsContainer: {
     padding: 20,
@@ -118,6 +141,7 @@ const styles = StyleSheet.create({
   doctorItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 15,
   },
   doctorImage: {
     width: 60,
@@ -146,13 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   bookButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderRadius: 20,
-  },
-  bookButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    width: 80,
   },
 });
 

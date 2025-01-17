@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import Card from '../components/Card';
 import GradientBackground from '../components/GradientBackground';
+import ElegantButton from '@/components/ElegantButton';
+
 
 const HomeScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -18,8 +20,8 @@ const HomeScreen: React.FC = () => {
   const healthStats = [
     { icon: 'heart-outline', label: 'Heart Rate', value: '72 bpm', color: colors.accent1 },
     { icon: 'fitness-outline', label: 'Blood Pressure', value: '120/80', color: colors.accent2 },
-    { icon: 'water-outline', label: 'Blood Sugar', value: '100 mg/dL', color: colors.secondary },
-    { icon: 'thermometer-outline', label: 'Temperature', value: '98.6 °F', color: colors.primary },
+    { icon: 'water-outline', label: 'Blood Sugar', value: '100 mg/dL', color: colors.accent3 },
+    { icon: 'thermometer-outline', label: 'Temperature', value: '98.6 °F', color: colors.accent4 },
   ];
 
   const renderHealthStat = (stat: typeof healthStats[0], index: number) => (
@@ -39,7 +41,7 @@ const HomeScreen: React.FC = () => {
   );
 
   return (
-    <GradientBackground style={styles.container}>
+    <GradientBackground>
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <Image
@@ -63,9 +65,12 @@ const HomeScreen: React.FC = () => {
               <Text style={[styles.appointmentTitle, { color: colors.text }]}>Dr. Sarah Johnson</Text>
             </View>
             <Text style={[styles.appointmentDetails, { color: colors.textSecondary }]}>Cardiologist • Tomorrow, 10:00 AM</Text>
-            <TouchableOpacity style={styles.viewButton}>
-              <Text style={[styles.viewButtonText, { color: colors.primary }]}>View Details</Text>
-            </TouchableOpacity>
+            <ElegantButton
+              title="View Details"
+              onPress={() => {/* Handle view details */}}
+              color="secondary"
+              style={styles.viewButton}
+            />
           </Card>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
           <View style={styles.quickActionsContainer}>
@@ -100,9 +105,6 @@ const getIconForAction = (action: string) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollView: {
     flex: 1,
   },
@@ -189,10 +191,6 @@ const styles = StyleSheet.create({
   viewButton: {
     alignSelf: 'flex-end',
   },
-  viewButtonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
   quickActionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -228,3 +226,4 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+

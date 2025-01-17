@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import GradientBackground from '../components/GradientBackground';
 import Card from '../components/Card';
+import ElegantButton from '@/components/ElegantButton';
 
 const AuthScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -53,21 +54,24 @@ const AuthScreen: React.FC = () => {
               onChangeText={setPassword}
             />
           </View>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: colors.primary }]}
+          <ElegantButton
+            title={isLogin ? 'Log In' : 'Sign Up'}
             onPress={handleAuth}
+            style={styles.button}
+          />
+          <Text
+            style={[styles.switchText, { color: colors.primary }]}
+            onPress={() => setIsLogin(!isLogin)}
           >
-            <Text style={styles.buttonText}>{isLogin ? 'Log In' : 'Sign Up'}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-            <Text style={[styles.switchText, { color: colors.primary }]}>
-              {isLogin ? 'Need an account? Sign up' : 'Already have an account? Log in'}
-            </Text>
-          </TouchableOpacity>
+            {isLogin ? 'Need an account? Sign up' : 'Already have an account? Log in'}
+          </Text>
           {isLogin && (
-            <TouchableOpacity>
-              <Text style={[styles.forgotPassword, { color: colors.secondary }]}>Forgot Password?</Text>
-            </TouchableOpacity>
+            <Text
+              style={[styles.forgotPassword, { color: colors.secondary }]}
+              onPress={() => {/* Handle forgot password */}}
+            >
+              Forgot Password?
+            </Text>
           )}
         </Card>
       </KeyboardAvoidingView>
@@ -122,16 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    marginTop: 20,
   },
   switchText: {
     marginTop: 20,
@@ -146,3 +141,4 @@ const styles = StyleSheet.create({
 });
 
 export default AuthScreen;
+

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Alert } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -7,6 +7,8 @@ import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
 import GradientBackground from '../components/GradientBackground';
 import Card from '../components/Card';
+import ElegantButton from '@/components/ElegantButton';
+
 
 const ReportsScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -76,9 +78,12 @@ const ReportsScreen: React.FC = () => {
           <Text style={[styles.reportDate, { color: colors.textSecondary }]}>{item.date}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={() => handleDownload(item)} style={styles.downloadButton}>
-        <Ionicons name="download" size={24} color={colors.primary} />
-      </TouchableOpacity>
+      <ElegantButton
+        title="Download"
+        onPress={() => handleDownload(item)}
+        color="secondary"
+        style={styles.downloadButton}
+      />
     </Card>
   );
 
@@ -88,10 +93,12 @@ const ReportsScreen: React.FC = () => {
         <Text style={styles.title}>Medical Reports</Text>
       </View>
       <View style={styles.content}>
-        <TouchableOpacity style={[styles.uploadButton, { backgroundColor: colors.primary }]} onPress={handleUpload}>
-          <Ionicons name="cloud-upload" size={24} color="white" />
-          <Text style={styles.uploadButtonText}>Upload New Report</Text>
-        </TouchableOpacity>
+        <ElegantButton
+          title="Upload New Report"
+          onPress={handleUpload}
+          color="primary"
+          style={styles.uploadButton}
+        />
         <FlatList
           data={reports}
           renderItem={renderReportItem}
@@ -125,18 +132,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   uploadButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    borderRadius: 25,
     marginBottom: 20,
-  },
-  uploadButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 10,
   },
   reportsContainer: {
     paddingBottom: 20,
@@ -172,8 +168,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   downloadButton: {
-    padding: 10,
+    width: 100,
   },
 });
 
 export default ReportsScreen;
+
