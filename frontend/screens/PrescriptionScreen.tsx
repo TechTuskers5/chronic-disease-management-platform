@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import GradientBackground from '../components/GradientBackground';
+import Card from '../components/Card';
+import ElegantButton from '../components/ElegantButton';
 
 const PrescriptionScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -18,50 +21,48 @@ const PrescriptionScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.primary }]}>
-        <Text style={styles.headerText}>Your Prescriptions</Text>
-      </View>
-
-      <View style={styles.content}>
-        {prescriptions.map((prescription) => (
-          <View key={prescription.id} style={[styles.prescriptionItem, { backgroundColor: colors.surface }]}>
-            <View style={styles.prescriptionIcon}>
-              <Ionicons name="medical" size={24} color={colors.primary} />
-            </View>
-            <View style={styles.prescriptionDetails}>
-              <Text style={[styles.prescriptionName, { color: colors.text }]}>{prescription.name}</Text>
-              <Text style={[styles.prescriptionInfo, { color: colors.textSecondary }]}>
-                {prescription.dosage} • {prescription.frequency}
-              </Text>
-              <Text style={[styles.prescriptionTime, { color: colors.accent1 }]}>
-                <Ionicons name="time-outline" size={16} color={colors.accent1} /> {prescription.time}
-              </Text>
-            </View>
-          </View>
-        ))}
-
-        <TouchableOpacity 
-          style={[styles.button, { backgroundColor: colors.secondary }]} 
-          onPress={handleFindPharmacy}
-        >
-          <Ionicons name="location-outline" size={24} color="white" style={styles.buttonIcon} />
-          <Text style={styles.buttonText}>Find Nearby Pharmacies</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    <GradientBackground>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Your Prescriptions</Text>
+        </View>
+        <View style={styles.content}>
+          {prescriptions.map((prescription, index) => (
+            <Card key={prescription.id} style={styles.prescriptionItem} index={index}>
+              <View style={styles.prescriptionIcon}>
+                <Ionicons name="medical" size={24} color={colors.primary} />
+              </View>
+              <View style={styles.prescriptionDetails}>
+                <Text style={[styles.prescriptionName, { color: colors.text }]}>{prescription.name}</Text>
+                <Text style={[styles.prescriptionInfo, { color: colors.textSecondary }]}>
+                  {prescription.dosage} • {prescription.frequency}
+                </Text>
+                <Text style={[styles.prescriptionTime, { color: colors.accent1 }]}>
+                  <Ionicons name="time-outline" size={16} color={colors.accent1} /> {prescription.time}
+                </Text>
+              </View>
+            </Card>
+          ))}
+          <ElegantButton
+            title="Find Nearby Pharmacies"
+            onPress={handleFindPharmacy}
+            color="secondary"
+            style={styles.findPharmacyButton}
+          />
+        </View>
+      </ScrollView>
+    </GradientBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
   },
   header: {
     padding: 20,
     paddingTop: 60,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingBottom: 30,
   },
   headerText: {
     fontSize: 28,
@@ -69,21 +70,26 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   content: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     padding: 20,
+    paddingTop: 30,
   },
   prescriptionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
-    borderRadius: 10,
     padding: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   prescriptionIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 15,
   },
   prescriptionDetails: {
@@ -101,21 +107,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 5,
   },
-  button: {
-    flexDirection:'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    borderRadius: 10,
+  findPharmacyButton: {
     marginTop: 20,
-  },
-  buttonIcon: {
-    marginRight: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 
