@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
+import GradientBackground from '../components/GradientBackground';
+import Card from '../components/Card';
 
 const ReportsScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -37,7 +39,7 @@ const ReportsScreen: React.FC = () => {
     }
   };
 
-  const handleDownload = async (report: { id?: number; name: any; date?: string; type?: string; }) => {
+  const handleDownload = async (report: { id: number; name: string; date: string; type: string }) => {
     try {
       // In a real app, you would fetch the actual file content here
       const content = `This is the content of ${report.name}`;
@@ -59,38 +61,45 @@ const ReportsScreen: React.FC = () => {
     }
   };
 
-  return (
-    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.primary }]}>
-        <Text style={styles.headerText}>Medical Reports</Text>
+  const renderReportItem = ({ item, index }: { item: typeof reports[0]; index: number }) => (
+    <Card style={styles.reportItem} index={index}>
+      <View style={styles.reportInfo}>
+        <View style={[styles.reportIconContainer, { backgroundColor: colors.primary + '20' }]}>
+          <Ionicons 
+            name={item.type === 'pdf' ? 'document-text' : 'image'} 
+            size={24} 
+            color={colors.primary} 
+          />
+        </View>
+        <View style={styles.reportDetails}>
+          <Text style={[styles.reportName, { color: colors.text }]}>{item.name}</Text>
+          <Text style={[styles.reportDate, { color: colors.textSecondary }]}>{item.date}</Text>
+        </View>
       </View>
-
-      <TouchableOpacity style={[styles.uploadButton, { backgroundColor: colors.secondary }]} onPress={handleUpload}>
-        <Ionicons name="cloud-upload" size={24} color="white" />
-        <Text style={styles.uploadButtonText}>Upload New Report</Text>
+      <TouchableOpacity onPress={() => handleDownload(item)} style={styles.downloadButton}>
+        <Ionicons name="download" size={24} color={colors.primary} />
       </TouchableOpacity>
+    </Card>
+  );
 
-      <View style={styles.reportsContainer}>
-        {reports.map((report) => (
-          <View key={report.id} style={[styles.reportItem, { backgroundColor: colors.surface }]}>
-            <View style={styles.reportInfo}>
-              <Ionicons 
-                name={report.type === 'pdf' ? 'document-text' : 'image'} 
-                size={24} 
-                color={colors.primary} 
-              />
-              <View style={styles.reportDetails}>
-                <Text style={[styles.reportName, { color: colors.text }]}>{report.name}</Text>
-                <Text style={[styles.reportDate, { color: colors.textSecondary }]}>{report.date}</Text>
-              </View>
-            </View>
-            <TouchableOpacity onPress={() => handleDownload(report)}>
-              <Ionicons name="download" size={24} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-        ))}
+  return (
+    <GradientBackground style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Medical Reports</Text>
       </View>
-    </ScrollView>
+      <View style={styles.content}>
+        <TouchableOpacity style={[styles.uploadButton, { backgroundColor: colors.primary }]} onPress={handleUpload}>
+          <Ionicons name="cloud-upload" size={24} color="white" />
+          <Text style={styles.uploadButtonText}>Upload New Report</Text>
+        </TouchableOpacity>
+        <FlatList
+          data={reports}
+          renderItem={renderReportItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.reportsContainer}
+        />
+      </View>
+    </GradientBackground>
   );
 };
 
@@ -99,23 +108,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    padding: 20,
     paddingTop: 60,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
-  headerText: {
+  title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: 'white',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 20,
   },
   uploadButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20,
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 25,
+    marginBottom: 20,
   },
   uploadButtonText: {
     color: 'white',
@@ -124,27 +139,29 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   reportsContainer: {
-    padding: 20,
+    paddingBottom: 20,
   },
   reportItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
-    borderRadius: 10,
     marginBottom: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   reportInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  reportIconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
   reportDetails: {
-    marginLeft: 15,
+    flex: 1,
   },
   reportName: {
     fontSize: 16,
@@ -154,7 +171,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 5,
   },
+  downloadButton: {
+    padding: 10,
+  },
 });
 
 export default ReportsScreen;
-

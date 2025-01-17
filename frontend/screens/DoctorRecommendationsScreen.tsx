@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import Header from '../components/Header';
+import Card from '../components/Card';
 
 const DoctorRecommendationsScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -31,15 +33,32 @@ const DoctorRecommendationsScreen: React.FC = () => {
     console.log('Booking appointment with doctor ID:', doctorId);
   };
 
-  return (
-    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.primary }]}>
-        <Text style={styles.headerText}>Find a Doctor</Text>
+  const renderDoctorItem = ({ item, index }: { item: typeof allDoctors[0], index: number }) => (
+    <Card style={styles.doctorItem} index={index}>
+      <Image source={{ uri: item.image }} style={styles.doctorImage} />
+      <View style={styles.doctorInfo}>
+        <Text style={[styles.doctorName, { color: colors.text }]}>{item.name}</Text>
+        <Text style={[styles.doctorSpecialty, { color: colors.textSecondary }]}>{item.specialty}</Text>
+        <View style={styles.ratingContainer}>
+          <Ionicons name="star" size={16} color={colors.primary} />
+          <Text style={[styles.ratingText, { color: colors.text }]}>{item.rating}</Text>
+        </View>
       </View>
+      <TouchableOpacity 
+        style={[styles.bookButton, { backgroundColor: colors.primary }]} 
+        onPress={() => handleBookAppointment(item.id)}
+      >
+        <Text style={styles.bookButtonText}>Book</Text>
+      </TouchableOpacity>
+    </Card>
+  );
 
+  return (
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Header title="Find a Doctor" />
       <View style={styles.searchContainer}>
         <View style={[styles.searchInputContainer, { backgroundColor: colors.surface }]}>
-          <Ionicons name="search-outline" size={24} color={colors.textSecondary} style={styles.searchIcon} />
+          <Ionicons name="search-outline" size={24} color={colors.primary} style={styles.searchIcon} />
           <TextInput
             style={[styles.searchInput, { color: colors.text }]}
             placeholder="Search by name or specialty"
@@ -49,49 +68,22 @@ const DoctorRecommendationsScreen: React.FC = () => {
           />
         </View>
         <TouchableOpacity style={[styles.searchButton, { backgroundColor: colors.primary }]} onPress={handleSearch}>
-          <Text style={styles.searchButtonText}>Search</Text>
+          <Ionicons name="search" size={24} color="white" />
         </TouchableOpacity>
       </View>
-
-      <View style={styles.doctorsContainer}>
-        {doctors.map((doctor) => (
-          <View key={doctor.id} style={[styles.doctorItem, { backgroundColor: colors.surface }]}>
-            <Image source={{ uri: doctor.image }} style={styles.doctorImage} />
-            <View style={styles.doctorInfo}>
-              <Text style={[styles.doctorName, { color: colors.text }]}>{doctor.name}</Text>
-              <Text style={[styles.doctorSpecialty, { color: colors.textSecondary }]}>{doctor.specialty}</Text>
-              <View style={styles.ratingContainer}>
-                <Ionicons name="star" size={16} color={colors.accent} />
-                <Text style={[styles.ratingText, { color: colors.text }]}>{doctor.rating}</Text>
-              </View>
-            </View>
-            <TouchableOpacity 
-              style={[styles.bookButton, { backgroundColor: colors.secondary }]} 
-              onPress={() => handleBookAppointment(doctor.id)}
-            >
-              <Text style={styles.bookButtonText}>Book</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+      <FlatList
+        data={doctors}
+        renderItem={renderDoctorItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.doctorsContainer}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    padding: 20,
-    paddingTop: 60,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  headerText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -101,8 +93,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 10,
-    paddingHorizontal: 10,
+    borderRadius: 25,
+    paddingHorizontal: 15,
     marginRight: 10,
   },
   searchIcon: {
@@ -110,16 +102,15 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 40,
+    height: 50,
+    fontSize: 16,
   },
   searchButton: {
-    padding: 10,
-    borderRadius: 10,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
-  },
-  searchButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    alignItems: 'center',
   },
   doctorsContainer: {
     padding: 20,
@@ -127,14 +118,6 @@ const styles = StyleSheet.create({
   doctorItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
-    borderRadius: 10,
-    padding: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   doctorImage: {
     width: 60,
@@ -165,7 +148,7 @@ const styles = StyleSheet.create({
   bookButton: {
     paddingVertical: 8,
     paddingHorizontal: 15,
-    borderRadius: 5,
+    borderRadius: 20,
   },
   bookButtonText: {
     color: 'white',

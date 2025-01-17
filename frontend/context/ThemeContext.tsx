@@ -1,74 +1,35 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-
-type Theme = 'light' | 'dark';
-
-interface ThemeColors {
-  background: string;
-  surface: string;
-  primary: string;
-  primaryLight: string;
-  secondary: string;
-  accent: string;
-  text: string;
-  textSecondary: string;
-  border: string;
-  error: string;
-  success: string;
-  warning: string;
-}
+import React, { createContext, useContext, ReactNode } from 'react';
 
 interface ThemeContextType {
-  theme: Theme;
-  toggleTheme: () => void;
-  colors: ThemeColors;
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    surface: string;
+    text: string;
+    textSecondary: string;
+    accent1: string;
+    accent2: string;
+  };
 }
-
-const lightColors: ThemeColors = {
-  background: '#F0F4F8',
-  surface: '#FFFFFF',
-  primary: '#1A73E8',
-  primaryLight: '#E8F0FE',
-  secondary: '#34A853',
-  accent: '#FBBC04',
-  text: '#202124',
-  textSecondary: '#5F6368',
-  border: '#DADCE0',
-  error: '#EA4335',
-  success: '#34A853',
-  warning: '#FBBC04',
-};
-
-const darkColors: ThemeColors = {
-  background: '#202124',
-  surface: '#303134',
-  primary: '#8AB4F8',
-  primaryLight: '#3C4043',
-  secondary: '#81C995',
-  accent: '#FDD663',
-  text: '#E8EAED',
-  textSecondary: '#9AA0A6',
-  border: '#5F6368',
-  error: '#F28B82',
-  success: '#81C995',
-  warning: '#FDD663',
-};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  const theme: ThemeContextType = {
+    colors: {
+      primary: '#6C63FF',
+      secondary: '#4CAF50',
+      background: '#F0F4F8',
+      surface: '#FFFFFF',
+      text: '#1A1A1A',
+      textSecondary: '#6B7280',
+      accent1: '#FF6B6B',
+      accent2: '#4ECDC4',
+    },
   };
 
-  const colors = theme === 'light' ? lightColors : darkColors;
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, colors }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {

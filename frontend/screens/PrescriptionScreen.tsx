@@ -34,8 +34,8 @@ const PrescriptionScreen: React.FC = () => {
               <Text style={[styles.prescriptionInfo, { color: colors.textSecondary }]}>
                 {prescription.dosage} • {prescription.frequency}
               </Text>
-              <Text style={[styles.prescriptionTime, { color: colors.accent }]}>
-                <Ionicons name="time-outline" size={16} color={colors.accent} /> {prescription.time}
+              <Text style={[styles.prescriptionTime, { color: colors.accent1 }]}>
+                <Ionicons name="time-outline" size={16} color={colors.accent1} /> {prescription.time}
               </Text>
             </View>
           </View>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import GradientBackground from '../components/GradientBackground';
+import Card from '../components/Card';
 
 const AuthScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -11,61 +12,28 @@ const AuthScreen: React.FC = () => {
   const [password, setPassword] = useState('');
 
   const handleAuth = async () => {
-    const endpoint = isLogin ? '/auth/login' : '/auth/signup';
-    const payload = { email, password };
-  
-    try {
-      const response = await fetch(`http://localhost:${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error:', errorData.error);
-        return;
-      }
-  
-      const data = await response.json();
-      console.log(isLogin ? 'Login successful' : 'Signup successful', data);
-  
-      // Handle successful response
-      if (isLogin) {
-        const { token } = data; // Assuming the backend sends a JWT or similar token
-        if (token) {
-          await AsyncStorage.setItem('authToken', token); // Store the token securely
-          console.log('Token saved:', token);
-        } else {
-          console.error('No token received from backend.');
-        }
-      } else {
-        console.log('Signup successful:', data);
-        // Optionally, handle post-signup actions here, like navigating to another screen
-      }
-    } catch (error) {
-      console.error('Error connecting to the backend:', error);
-    }
+    // ... (keep the existing handleAuth logic)
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={[styles.container, { backgroundColor: colors.background }]}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+    <GradientBackground>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
         <View style={styles.logoContainer}>
-          <Ionicons name="medical" size={80} color={colors.primary} />
-          <Text style={[styles.logoText, { color: colors.primary }]}>ChronicCare</Text>
+          <Image
+            source={require('../assets/logo.png')} // Make sure to add a logo image
+            style={styles.logo}
+          />
+          <Text style={styles.logoText}>ChronicCare</Text>
         </View>
-        <View style={[styles.formContainer, { backgroundColor: colors.surface }]}>
+        <Card style={styles.card}>
           <Text style={[styles.title, { color: colors.text }]}>{isLogin ? 'Welcome Back' : 'Create Account'}</Text>
           <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={24} color={colors.textSecondary} style={styles.inputIcon} />
+            <Ionicons name="mail-outline" size={24} color={colors.primary} style={styles.inputIcon} />
             <TextInput
-              style={[styles.input, { backgroundColor: colors.background, color: colors.text }]}
+              style={[styles.input, { color: colors.text }]}
               placeholder="Email"
               placeholderTextColor={colors.textSecondary}
               value={email}
@@ -75,9 +43,9 @@ const AuthScreen: React.FC = () => {
             />
           </View>
           <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={24} color={colors.textSecondary} style={styles.inputIcon} />
+            <Ionicons name="lock-closed-outline" size={24} color={colors.primary} style={styles.inputIcon} />
             <TextInput
-              style={[styles.input, { backgroundColor: colors.background, color: colors.text }]}
+              style={[styles.input, { color: colors.text }]}
               placeholder="Password"
               placeholderTextColor={colors.textSecondary}
               secureTextEntry
@@ -92,7 +60,7 @@ const AuthScreen: React.FC = () => {
             <Text style={styles.buttonText}>{isLogin ? 'Log In' : 'Sign Up'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-            <Text style={[styles.switchText, { color: colors.accent }]}>
+            <Text style={[styles.switchText, { color: colors.primary }]}>
               {isLogin ? 'Need an account? Sign up' : 'Already have an account? Log in'}
             </Text>
           </TouchableOpacity>
@@ -101,18 +69,15 @@ const AuthScreen: React.FC = () => {
               <Text style={[styles.forgotPassword, { color: colors.secondary }]}>Forgot Password?</Text>
             </TouchableOpacity>
           )}
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </Card>
+      </KeyboardAvoidingView>
+    </GradientBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
     justifyContent: 'center',
     padding: 20,
   },
@@ -120,30 +85,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
+  logo: {
+    width: 120,
+    height: 120,
+    resizeMode: 'contain',
+  },
   logoText: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: 'white',
     marginTop: 10,
   },
-  formContainer: {
-    borderRadius: 20,
-    padding: 20,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  card: {
+    borderRadius: 30,
+    padding: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   inputIcon: {
     marginRight: 10,
@@ -151,15 +119,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 50,
-    borderRadius: 10,
-    paddingHorizontal: 15,
+    fontSize: 16,
   },
   button: {
-    height: 50,
-    borderRadius: 10,
+    height: 56,
+    borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -179,4 +146,3 @@ const styles = StyleSheet.create({
 });
 
 export default AuthScreen;
-

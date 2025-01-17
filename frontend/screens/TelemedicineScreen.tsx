@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import Header from '../components/Header';
+import Card from '../components/Card';
 
 interface Doctor {
   id: string;
@@ -18,8 +20,8 @@ const TelemedicineScreen: React.FC = () => {
     { id: '3', name: 'Dr. Michael Lee', specialty: 'Neurologist', available: true },
   ]);
 
-  const renderDoctorItem = ({ item }: { item: Doctor }) => (
-    <View style={[styles.doctorItem, { backgroundColor: colors.surface }]}>
+  const renderDoctorItem = ({ item, index }: { item: Doctor; index: number }) => (
+    <Card style={styles.doctorItem} index={index}>
       <View style={styles.doctorInfo}>
         <Text style={[styles.doctorName, { color: colors.text }]}>{item.name}</Text>
         <Text style={[styles.doctorSpecialty, { color: colors.textSecondary }]}>{item.specialty}</Text>
@@ -33,12 +35,12 @@ const TelemedicineScreen: React.FC = () => {
       >
         <Ionicons name="videocam-outline" size={24} color="white" />
       </TouchableOpacity>
-    </View>
+    </Card>
   );
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Telemedicine</Text>
+      <Header title="Telemedicine" subtitle="Connect with doctors virtually" />
       <FlatList
         data={doctors}
         renderItem={renderDoctorItem}
@@ -52,28 +54,16 @@ const TelemedicineScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
   },
   listContainer: {
-    paddingBottom: 20,
+    padding: 20,
   },
   doctorItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    marginBottom: 15,
   },
   doctorInfo: {
     flex: 1,

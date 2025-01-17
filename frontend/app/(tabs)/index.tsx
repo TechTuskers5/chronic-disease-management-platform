@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ThemeProvider } from '@/context/ThemeContext';
 import HomeScreen from '@/screens/HomeScreen';
@@ -23,8 +22,7 @@ const App: React.FC = () => {
               backgroundColor: '#0078D4',
             },
             headerTintColor: '#fff',
-          }}
-        >
+          }}>
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Auth" component={AuthScreen} />
           <Drawer.Screen name="Reports" component={ReportsScreen} />
