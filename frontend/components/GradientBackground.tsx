@@ -9,7 +9,7 @@ interface GradientBackgroundProps {
 }
 
 const GradientBackground: React.FC<GradientBackgroundProps> = ({ children, style }) => {
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
 
   return (
     <View style={[styles.container, style]}>
@@ -19,7 +19,12 @@ const GradientBackground: React.FC<GradientBackgroundProps> = ({ children, style
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFillObject}
       />
-      <View style={styles.content}>{children}</View>
+      <View style={[
+        styles.content,
+        { backgroundColor: theme === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.85)' }
+      ]}>
+        {children}
+      </View>
     </View>
   );
 };
@@ -30,7 +35,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
   },
 });
 

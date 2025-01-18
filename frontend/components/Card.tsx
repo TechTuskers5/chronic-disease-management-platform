@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ children, style, index = 0, isVisible = true }) => {
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(50);
 
@@ -37,7 +37,10 @@ const Card: React.FC<CardProps> = ({ children, style, index = 0, isVisible = tru
     <Animated.View
       style={[
         styles.card,
-        { backgroundColor: colors.surface },
+        { 
+          backgroundColor: colors.surface,
+          shadowColor: theme === 'light' ? '#000' : '#fff',
+        },
         style,
         animatedStyle,
         { animationDelay: `${index * 100}ms` },
@@ -53,11 +56,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
-    elevation: 3,
-    shadowColor: '#000',
+    elevation: 5,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 8,
   },
 });
 
