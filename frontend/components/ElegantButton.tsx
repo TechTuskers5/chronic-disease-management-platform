@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
 
 interface ElegantButtonProps {
@@ -21,13 +22,16 @@ const ElegantButton: React.FC<ElegantButtonProps> = ({
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        { backgroundColor: colors[color] },
-        style,
-      ]}
+      style={[styles.button, style]}
       onPress={onPress}
+      activeOpacity={0.8}
     >
+      <LinearGradient
+        colors={colors.buttonGradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

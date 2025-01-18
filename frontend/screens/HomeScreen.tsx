@@ -4,7 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
-import Card from '../components/Card';
+import AnimatedCard from '../components/AnimatedCard';
 import GradientBackground from '../components/GradientBackground';
 import ElegantButton from '../components/ElegantButton';
 
@@ -24,7 +24,7 @@ const HomeScreen: React.FC = () => {
   ];
 
   const renderHealthStat = (stat: typeof healthStats[0], index: number) => (
-    <Card key={index} style={styles.statItem} index={index} isVisible={isVisible}>
+    <AnimatedCard key={index} style={styles.statItem} index={index} isVisible={isVisible}>
       <LinearGradient
         colors={[stat.color, stat.color + '80']}
         style={styles.statIconContainer}
@@ -36,7 +36,7 @@ const HomeScreen: React.FC = () => {
       </LinearGradient>
       <Text style={[styles.statValue, { color: colors.text }]}>{stat.value}</Text>
       <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{stat.label}</Text>
-    </Card>
+    </AnimatedCard>
   );
 
   return (
@@ -61,7 +61,7 @@ const HomeScreen: React.FC = () => {
             {healthStats.map(renderHealthStat)}
           </View>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Upcoming Appointment</Text>
-          <Card style={styles.appointmentCard} index={5} isVisible={isVisible}>
+          <AnimatedCard style={styles.appointmentCard} index={5} isVisible={isVisible}>
             <View style={styles.appointmentHeader}>
               <Ionicons name="calendar" size={24} color={colors.primary} />
               <Text style={[styles.appointmentTitle, { color: colors.text }]}>Dr. Sarah Johnson</Text>
@@ -73,13 +73,13 @@ const HomeScreen: React.FC = () => {
               color="secondary"
               style={styles.viewButton}
             />
-          </Card>
+          </AnimatedCard>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
           <View style={styles.quickActionsContainer}>
             {['Medications', 'Reports', 'Messages', 'Settings'].map((action, index) => (
               <TouchableOpacity key={index} style={[styles.quickActionItem, { backgroundColor: colors.surface }]}>
                 <LinearGradient
-                  colors={[colors.primary, colors.secondary]}
+                  colors={colors.buttonGradient}
                   style={styles.quickActionIcon}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 15,
     marginTop: 20,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import GradientBackground from '../components/GradientBackground';
-import Card from '../components/Card';
+import AnimatedCard from '../components/AnimatedCard';
 import ElegantButton from '../components/ElegantButton';
 
 const PrescriptionScreen: React.FC = () => {
@@ -28,7 +28,7 @@ const PrescriptionScreen: React.FC = () => {
         </View>
         <View style={[styles.content, { backgroundColor: colors.background }]}>
           {prescriptions.map((prescription, index) => (
-            <Card key={prescription.id} style={styles.prescriptionItem} index={index}>
+            <AnimatedCard key={prescription.id} style={styles.prescriptionItem} index={index} isVisible={true}>
               <View style={[styles.prescriptionIcon, { backgroundColor: colors.primary + '20' }]}>
                 <Ionicons name="medical" size={24} color={colors.primary} />
               </View>
@@ -41,7 +41,7 @@ const PrescriptionScreen: React.FC = () => {
                   <Ionicons name="time-outline" size={16} color={colors.accent1} /> {prescription.time}
                 </Text>
               </View>
-            </Card>
+            </AnimatedCard>
           ))}
           <ElegantButton
             title="Find Nearby Pharmacies"
