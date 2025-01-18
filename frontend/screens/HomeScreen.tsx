@@ -17,16 +17,16 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   const healthStats = [
-    { icon: 'heart-outline', label: 'Heart Rate', value: '72 bpm', color: colors.accent1 },
-    { icon: 'fitness-outline', label: 'Blood Pressure', value: '120/80', color: colors.accent2 },
-    { icon: 'water-outline', label: 'Blood Sugar', value: '100 mg/dL', color: colors.accent3 },
-    { icon: 'thermometer-outline', label: 'Temperature', value: '98.6 °F', color: colors.accent4 },
+    { icon: 'heart-outline', label: 'Heart Rate', value: '72 bpm', gradient: [colors.accent1, `${colors.accent1}80`] as const },
+    { icon: 'fitness-outline', label: 'Blood Pressure', value: '120/80', gradient: [colors.accent2, `${colors.accent2}80`] as const },
+    { icon: 'water-outline', label: 'Blood Sugar', value: '100 mg/dL', gradient: [colors.accent3, `${colors.accent3}80`] as const },
+    { icon: 'thermometer-outline', label: 'Temperature', value: '98.6 °F', gradient: [colors.accent4, `${colors.accent4}80`] as const },
   ];
 
   const renderHealthStat = (stat: typeof healthStats[0], index: number) => (
     <AnimatedCard key={index} style={styles.statItem} index={index} isVisible={isVisible}>
       <LinearGradient
-        colors={[stat.color, stat.color + '80']}
+        colors={stat.gradient}
         style={styles.statIconContainer}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

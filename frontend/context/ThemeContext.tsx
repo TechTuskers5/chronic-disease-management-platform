@@ -3,6 +3,8 @@ import { useColorScheme } from 'react-native';
 
 type ThemeType = 'light' | 'dark';
 
+type GradientTuple = readonly [string, string];
+
 interface ThemeColors {
   primary: string;
   secondary: string;
@@ -16,8 +18,8 @@ interface ThemeColors {
   accent4: string;
   success: string;
   error: string;
-  cardGradient: string[];
-  buttonGradient: string[];
+  cardGradient: GradientTuple;
+  buttonGradient: GradientTuple;
 }
 
 interface ThemeContextType {
@@ -39,8 +41,8 @@ const lightColors: ThemeColors = {
   accent4: '#6BFFD3',
   success: '#4CAF50',
   error: '#F44336',
-  cardGradient: ['#FFFFFF', '#F0F0F0'],
-  buttonGradient: ['#4A90E2', '#50E3C2'],
+  cardGradient: ['#FFFFFF', '#F0F0F0'] as const,
+  buttonGradient: ['#4A90E2', '#50E3C2'] as const,
 };
 
 const darkColors: ThemeColors = {
@@ -56,8 +58,8 @@ const darkColors: ThemeColors = {
   accent4: '#80FFE0',
   success: '#66BB6A',
   error: '#E57373',
-  cardGradient: ['#2C2C2C', '#222222'],
-  buttonGradient: ['#6A9FE6', '#60E8CB'],
+  cardGradient: ['#2C2C2C', '#222222'] as const,
+  buttonGradient: ['#6A9FE6', '#60E8CB'] as const,
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -90,3 +92,4 @@ export const useTheme = () => {
   }
   return context;
 };
+
