@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import GradientBackground from '../components/GradientBackground';
@@ -26,10 +26,10 @@ const PrescriptionScreen: React.FC = () => {
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Prescriptions</Text>
         </View>
-        <View style={styles.content}>
+        <View style={[styles.content, { backgroundColor: colors.background }]}>
           {prescriptions.map((prescription, index) => (
             <Card key={prescription.id} style={styles.prescriptionItem} index={index}>
-              <View style={styles.prescriptionIcon}>
+              <View style={[styles.prescriptionIcon, { backgroundColor: colors.primary + '20' }]}>
                 <Ionicons name="medical" size={24} color={colors.primary} />
               </View>
               <View style={styles.prescriptionDetails}>
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: 'white',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'rgba(74, 144, 226, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,

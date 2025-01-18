@@ -6,11 +6,10 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-na
 import { LinearGradient } from 'expo-linear-gradient';
 import Card from '../components/Card';
 import GradientBackground from '../components/GradientBackground';
-import ElegantButton from '@/components/ElegantButton';
-
+import ElegantButton from '../components/ElegantButton';
 
 const HomeScreen: React.FC = () => {
-  const { colors } = useTheme();
+  const { colors, theme, toggleTheme } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -52,8 +51,11 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.greeting}>Welcome back,</Text>
             <Text style={styles.name}>John Doe</Text>
           </View>
+          <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
+            <Ionicons name={theme === 'light' ? 'moon' : 'sunny'} size={24} color="white" />
+          </TouchableOpacity>
         </View>
-        <View style={styles.content}>
+        <View style={[styles.content, { backgroundColor: colors.background }]}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Health Stats</Text>
           <View style={styles.statsContainer}>
             {healthStats.map(renderHealthStat)}
@@ -75,7 +77,7 @@ const HomeScreen: React.FC = () => {
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
           <View style={styles.quickActionsContainer}>
             {['Medications', 'Reports', 'Messages', 'Settings'].map((action, index) => (
-              <TouchableOpacity key={index} style={styles.quickActionItem}>
+              <TouchableOpacity key={index} style={[styles.quickActionItem, { backgroundColor: colors.surface }]}>
                 <LinearGradient
                   colors={[colors.primary, colors.secondary]}
                   style={styles.quickActionIcon}
@@ -129,9 +131,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  themeToggle: {
+    marginLeft: 'auto',
+  },
   content: {
     flex: 1,
-    backgroundColor: 'white',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
@@ -203,7 +207,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    backgroundColor: 'white',
     borderRadius: 20,
     elevation: 3,
     shadowColor: '#000',
