@@ -15,8 +15,9 @@ const AuthScreen: React.FC = () => {
   const [password, setPassword] = useState("")
 
   const handleAuth = async () => {
-    const endpoint = isLogin ? "http://localhost:5000/login" : "http://localhost:5000/register";
+    const endpoint = isLogin ? "http://127.0.0.1:5000/login" : "http://127.0.0.1:5000/register";
     const payload = {
+      name,
       email,
       password,
       ...(isLogin ? {} : { name: "User", phone: "1234567890" }), // Extra fields for signup
@@ -35,7 +36,7 @@ const AuthScreen: React.FC = () => {
   
       if (response.ok) {
         console.log("Success:", data);
-        alert(data.message); // Display success message
+        alert(data.message);
       } else {
         console.error("Error:", data.message);
         alert(data.message);
@@ -56,6 +57,17 @@ const AuthScreen: React.FC = () => {
         </Animated.View>
         <AnimatedCard style={styles.card} index={1}>
           <Text style={[styles.title, { color: colors.text }]}>{isLogin ? "Welcome Back" : "Create Account"}</Text>
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={24} color={colors.primary} style={styles.inputIcon} />
+            <TextInput
+              style={[styles.input, { color: colors.text }]}
+              placeholder="Name"
+              placeholderTextColor={colors.textSecondary}
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+            />
+          </View>
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={24} color={colors.primary} style={styles.inputIcon} />
             <TextInput
