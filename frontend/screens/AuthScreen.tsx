@@ -1,28 +1,28 @@
-import type React from "react"
-import { useState } from "react"
-import { View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from "react-native"
-import { useTheme } from "../context/ThemeContext"
-import { Ionicons } from "@expo/vector-icons"
-import Animated, { FadeInDown } from "react-native-reanimated"
-import GradientBackground from "../components/GradientBackground"
-import AnimatedCard from "../components/AnimatedCard"
-import ElegantButton from "../components/ElegantButton"
+import type React from "react";
+import { useState } from "react";
+import { View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from "react-native";
+import { useTheme } from "../context/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import GradientBackground from "../components/GradientBackground";
+import AnimatedCard from "../components/AnimatedCard";
+import ElegantButton from "../components/ElegantButton";
 
 const AuthScreen: React.FC = () => {
-  const { colors } = useTheme()
-  const [isLogin, setIsLogin] = useState(true)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const { colors } = useTheme();
+  const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleAuth = async () => {
     const endpoint = isLogin ? "http://127.0.0.1:5000/login" : "http://127.0.0.1:5000/register";
     const payload = {
-      name,
       email,
       password,
-      ...(isLogin ? {} : { name: "User", phone: "1234567890" }), // Extra fields for signup
+      ...(isLogin ? {} : { name, phone: "1234567890" }), // Include name only for signup
     };
-  
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -31,9 +31,9 @@ const AuthScreen: React.FC = () => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         console.log("Success:", data);
         alert(data.message);
@@ -46,7 +46,6 @@ const AuthScreen: React.FC = () => {
       alert("Network error, please try again.");
     }
   };
-  
 
   return (
     <GradientBackground>
@@ -57,17 +56,19 @@ const AuthScreen: React.FC = () => {
         </Animated.View>
         <AnimatedCard style={styles.card} index={1}>
           <Text style={[styles.title, { color: colors.text }]}>{isLogin ? "Welcome Back" : "Create Account"}</Text>
-          <View style={styles.inputContainer}>
-            <Ionicons name="person-outline" size={24} color={colors.primary} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: colors.text }]}
-              placeholder="Name"
-              placeholderTextColor={colors.textSecondary}
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-            />
-          </View>
+          {!isLogin && (
+            <View style={styles.inputContainer}>
+              <Ionicons name="person-outline" size={24} color={colors.primary} style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, { color: colors.text }]}
+                placeholder="Name"
+                placeholderTextColor={colors.textSecondary}
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="none"
+              />
+            </View>
+          )}
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={24} color={colors.primary} style={styles.inputIcon} />
             <TextInput
@@ -108,8 +109,8 @@ const AuthScreen: React.FC = () => {
         </AnimatedCard>
       </KeyboardAvoidingView>
     </GradientBackground>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -170,7 +171,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
-})
+});
 
-export default AuthScreen
-
+export default AuthScreen;

@@ -15,10 +15,10 @@ const UserProfileScreen: React.FC = () => {
     name: "John Doe",
     email: "johndoe@example.com",
     phone: "123-456-7890",
-    dob: "01/15/1980",
+    age: "43",
     bloodType: "A+",
-    allergies: "None",
-    medications: "Lisinopril, Metformin",
+    // allergies: "None",
+    // medications: "Lisinopril, Metformin",
   })
 
   const handleEdit = () => {
@@ -80,10 +80,10 @@ const UserProfileScreen: React.FC = () => {
           {renderField("Name", userDetails.name, "name", "person-outline")}
           {renderField("Email", userDetails.email, "email", "mail-outline")}
           {renderField("Phone", userDetails.phone, "phone", "call-outline")}
-          {renderField("Date of Birth", userDetails.dob, "dob", "calendar-outline")}
+          {renderField("Age", userDetails.age, "age", "calendar-outline")}
           {renderField("Blood Type", userDetails.bloodType, "bloodType", "water-outline")}
-          {renderField("Allergies", userDetails.allergies, "allergies", "alert-circle-outline")}
-          {renderField("Medications", userDetails.medications, "medications", "medical-outline")}
+          {/* {renderField("Allergies", userDetails.allergies, "allergies", "alert-circle-outline")}
+          {renderField("Medications", userDetails.medications, "medications", "medical-outline")} */}
 
           <ElegantButton
             title={isEditing ? "Save Profile" : "Edit Profile"}
