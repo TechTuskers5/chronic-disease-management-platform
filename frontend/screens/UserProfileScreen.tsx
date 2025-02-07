@@ -16,7 +16,7 @@ const UserProfileScreen: React.FC = () => {
     email: "johndoe@example.com",
     phone: "123-456-7890",
     age: "43",
-    bloodType: "A+",
+    // bloodType: "A+",
     // allergies: "None",
     // medications: "Lisinopril, Metformin",
   })
@@ -81,7 +81,7 @@ const UserProfileScreen: React.FC = () => {
           {renderField("Email", userDetails.email, "email", "mail-outline")}
           {renderField("Phone", userDetails.phone, "phone", "call-outline")}
           {renderField("Age", userDetails.age, "age", "calendar-outline")}
-          {renderField("Blood Type", userDetails.bloodType, "bloodType", "water-outline")}
+          {/* {renderField("Blood Type", userDetails.bloodType, "bloodType", "water-outline")} */}
           {/* {renderField("Allergies", userDetails.allergies, "allergies", "alert-circle-outline")}
           {renderField("Medications", userDetails.medications, "medications", "medical-outline")} */}
 
