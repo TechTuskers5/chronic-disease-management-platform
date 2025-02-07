@@ -34,7 +34,7 @@ const AnalysisScreen: React.FC = () => {
   }
 
   const progressData = {
-    labels: ["Steps", "Calories", "Water"], // optional
+    labels: ["Steps", "Calories", "Water"],
     data: [0.8, 0.6, 0.7],
   }
 
@@ -61,13 +61,9 @@ const AnalysisScreen: React.FC = () => {
         <View style={[styles.content, { backgroundColor: colors.background }]}>
           <Animated.View entering={FadeInDown.delay(100)} style={styles.periodSelector}>
             {["week", "month", "year"].map((period) => (
-              <ElegantButton
-                key={period}
-                title={period.charAt(0).toUpperCase() + period.slice(1)}
+              <ElegantButton key={period} title={period.charAt(0).toUpperCase() + period.slice(1)}
                 onPress={() => setSelectedPeriod(period as "week" | "month" | "year")}
-                color={selectedPeriod === period ? "primary" : "secondary"}
-                style={styles.periodButton}
-              />
+                color={selectedPeriod === period ? "primary" : "secondary"} style={styles.periodButton}/>
             ))}
           </Animated.View>
 
@@ -81,10 +77,8 @@ const AnalysisScreen: React.FC = () => {
               width={width - 40}
               height={220}
               chartConfig={{
-                backgroundColor: colors.background,
-                backgroundGradientFrom: colors.background,
-                backgroundGradientTo: colors.background,
-                decimalPlaces: 0,
+                backgroundColor: colors.background, backgroundGradientFrom: colors.background,
+                backgroundGradientTo: colors.background, decimalPlaces: 0,
                 color: (opacity = 1) => colors.primary,
                 style: {
                   borderRadius: 16,
@@ -94,8 +88,7 @@ const AnalysisScreen: React.FC = () => {
               style={{
                 marginVertical: 8,
                 borderRadius: 16,
-              }}
-            />
+              }}/>
           </Animated.View>
 
           <View style={styles.metricsContainer}>
@@ -106,12 +99,7 @@ const AnalysisScreen: React.FC = () => {
 
           <Animated.View entering={FadeInDown.delay(500)} style={styles.progressContainer}>
             <Text style={[styles.progressTitle, { color: colors.text }]}>Daily Goals Progress</Text>
-            <ProgressChart
-              data={progressData}
-              width={width - 40}
-              height={220}
-              strokeWidth={16}
-              radius={32}
+            <ProgressChart data={progressData} width={width - 40} height={220} strokeWidth={16} radius={32}
               chartConfig={{
                 backgroundColor: colors.background,
                 backgroundGradientFrom: colors.background,
@@ -120,10 +108,7 @@ const AnalysisScreen: React.FC = () => {
                 color: (opacity = 1) => colors.primary,
                 style: {
                   borderRadius: 16,
-                },
-              }}
-              hideLegend={false}
-            />
+                },}} hideLegend={false}/>
           </Animated.View>
 
           <Animated.View entering={FadeInDown.delay(600)} style={styles.summaryContainer}>
@@ -250,4 +235,3 @@ const styles = StyleSheet.create({
 })
 
 export default AnalysisScreen
-

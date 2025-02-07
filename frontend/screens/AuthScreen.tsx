@@ -15,8 +15,37 @@ const AuthScreen: React.FC = () => {
   const [password, setPassword] = useState("")
 
   const handleAuth = async () => {
-    // Implement authentication logic
-  }
+    const endpoint = isLogin ? "http://localhost:5000/login" : "http://localhost:5000/register";
+    const payload = {
+      email,
+      password,
+      ...(isLogin ? {} : { name: "User", phone: "1234567890" }), // Extra fields for signup
+    };
+  
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Success:", data);
+        alert(data.message); // Display success message
+      } else {
+        console.error("Error:", data.message);
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      alert("Network error, please try again.");
+    }
+  };
+  
 
   return (
     <GradientBackground>
