@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { Ionicons } from '@expo/vector-icons';
-import GradientBackground from '../components/GradientBackground';
-import Card from '../components/Card';
-import ElegantButton from '@/components/ElegantButton';
-
+import type React from "react"
+import { useState } from "react"
+import { View, Text, TextInput, StyleSheet, ScrollView, Image } from "react-native"
+import { useTheme } from "@/context/ThemeContext"
+import { Ionicons } from "@expo/vector-icons"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import GradientBackground from "@/components/GradientBackground"
+import AnimatedCard from "@/components/AnimatedCard"
+import ElegantButton from "@/components/ElegantButton"
 
 const UserProfileScreen: React.FC = () => {
-  const { colors } = useTheme();
-  const [isEditing, setIsEditing] = useState(false);
+  const { colors } = useTheme()
+  const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState({
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '123-456-7890',
-    dob: '01/15/1980',
-    bloodType: 'A+',
-    allergies: 'None',
-    medications: 'Lisinopril, Metformin',
-  });
+    name: "John Doe",
+    email: "johndoe@example.com",
+    phone: "123-456-7890",
+    dob: "01/15/1980",
+    bloodType: "A+",
+    allergies: "None",
+    medications: "Lisinopril, Metformin",
+  })
 
   const handleEdit = () => {
-    setIsEditing(true);
-  };
+    setIsEditing(true)
+  }
 
   const handleSave = () => {
-    setIsEditing(false);
+    setIsEditing(false)
     // Here you would typically send the updated details to your backend
-    console.log('Saving profile...', userDetails);
-  };
+    console.log("Saving profile...", userDetails)
+  }
 
-  const renderField = (label: string, value: string, field: keyof typeof userDetails, icon: keyof typeof Ionicons.glyphMap) => (
-    <Card style={styles.fieldContainer}>
-      <View style={[styles.iconContainer, { backgroundColor: colors.primary + '20' }]}>
+  const renderField = (
+    label: string,
+    value: string,
+    field: keyof typeof userDetails,
+    icon: keyof typeof Ionicons.glyphMap,
+  ) => (
+    <AnimatedCard style={styles.fieldContainer}>
+      <View style={[styles.iconContainer, { backgroundColor: colors.primary + "20" }]}>
         <Ionicons name={icon} size={24} color={colors.primary} />
       </View>
       <View style={styles.fieldContent}>
@@ -47,8 +53,8 @@ const UserProfileScreen: React.FC = () => {
           <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
         )}
       </View>
-    </Card>
-  );
+    </AnimatedCard>
+  )
 
   return (
     <GradientBackground style={styles.container}>
@@ -56,38 +62,40 @@ const UserProfileScreen: React.FC = () => {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>User Profile</Text>
         </View>
-        <View style={styles.content}>
+        <Animated.View
+          entering={FadeInDown.delay(200)}
+          style={[styles.content, { backgroundColor: colors.background }]}
+        >
           <View style={styles.profileImageContainer}>
-            <Image
-              source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
-              style={styles.profileImage}
-            />
+            <Image source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }} style={styles.profileImage} />
             <ElegantButton
               title="Change Photo"
-              onPress={() => {/* Handle change photo */}}
+              onPress={() => {
+                /* Handle change photo */
+              }}
               color="secondary"
               style={styles.changePhotoButton}
             />
           </View>
-          {renderField('Name', userDetails.name, 'name', 'person-outline')}
-          {renderField('Email', userDetails.email, 'email', 'mail-outline')}
-          {renderField('Phone', userDetails.phone, 'phone', 'call-outline')}
-          {renderField('Date of Birth', userDetails.dob, 'dob', 'calendar-outline')}
-          {renderField('Blood Type', userDetails.bloodType, 'bloodType', 'water-outline')}
-          {renderField('Allergies', userDetails.allergies, 'allergies', 'alert-circle-outline')}
-          {renderField('Medications', userDetails.medications, 'medications', 'medical-outline')}
+          {renderField("Name", userDetails.name, "name", "person-outline")}
+          {renderField("Email", userDetails.email, "email", "mail-outline")}
+          {renderField("Phone", userDetails.phone, "phone", "call-outline")}
+          {renderField("Date of Birth", userDetails.dob, "dob", "calendar-outline")}
+          {renderField("Blood Type", userDetails.bloodType, "bloodType", "water-outline")}
+          {renderField("Allergies", userDetails.allergies, "allergies", "alert-circle-outline")}
+          {renderField("Medications", userDetails.medications, "medications", "medical-outline")}
 
           <ElegantButton
-            title={isEditing ? 'Save Profile' : 'Edit Profile'}
+            title={isEditing ? "Save Profile" : "Edit Profile"}
             onPress={isEditing ? handleSave : handleEdit}
             color="primary"
             style={styles.editButton}
           />
-        </View>
+        </Animated.View>
       </ScrollView>
     </GradientBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -103,18 +111,17 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   content: {
     flex: 1,
-    backgroundColor: 'white',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
   },
   profileImageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   profileImage: {
@@ -124,11 +131,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   changePhotoButton: {
-    width: 150,
+    width: 155,
   },
   fieldContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
     padding: 15,
   },
@@ -136,8 +143,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 15,
   },
   fieldContent: {
@@ -149,7 +156,7 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   input: {
     fontSize: 16,
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
   editButton: {
     marginTop: 20,
   },
-});
+})
 
-export default UserProfileScreen;
+export default UserProfileScreen
 

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '@/context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
-import AnimatedCard from '../components/AnimatedCard';
-import GradientBackground from '../components/GradientBackground';
-import ElegantButton from '../components/ElegantButton';
+import AnimatedCard from '@/components/AnimatedCard';
+import GradientBackground from '@/components/GradientBackground';
+import ElegantButton from '@/components/ElegantButton';
 
 const HomeScreen: React.FC = () => {
-  const { colors, theme, toggleTheme } = useTheme();
+  const { colors } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const HomeScreen: React.FC = () => {
   ];
 
   const renderHealthStat = (stat: typeof healthStats[0], index: number) => (
-    <AnimatedCard key={index} style={styles.statItem} index={index} isVisible={isVisible}>
+    <AnimatedCard key={index} style={styles.statItem} index={index}>
       <LinearGradient
         colors={stat.gradient}
         style={styles.statIconContainer}
@@ -51,9 +50,6 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.greeting}>Welcome back,</Text>
             <Text style={styles.name}>John Doe</Text>
           </View>
-          <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
-            <Ionicons name={theme === 'light' ? 'moon' : 'sunny'} size={24} color="white" />
-          </TouchableOpacity>
         </View>
         <View style={[styles.content, { backgroundColor: colors.background }]}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Health Stats</Text>
@@ -61,7 +57,7 @@ const HomeScreen: React.FC = () => {
             {healthStats.map(renderHealthStat)}
           </View>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Upcoming Appointment</Text>
-          <AnimatedCard style={styles.appointmentCard} index={5} isVisible={isVisible}>
+          <AnimatedCard style={styles.appointmentCard} index={5}>
             <View style={styles.appointmentHeader}>
               <Ionicons name="calendar" size={24} color={colors.primary} />
               <Text style={[styles.appointmentTitle, { color: colors.text }]}>Dr. Sarah Johnson</Text>

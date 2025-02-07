@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useColorScheme } from 'react-native';
+import { ColorValue, useColorScheme } from 'react-native';
 
 type ThemeType = 'light' | 'dark';
 
 type GradientTuple = readonly [string, string];
 
 interface ThemeColors {
+  inputBackground: ColorValue | undefined;
+  primaryLight: ColorValue | undefined;
+  shadow: ColorValue | undefined;
+  buttonText: ColorValue | undefined;
   primary: string;
   secondary: string;
   background: string;
@@ -43,6 +47,9 @@ const lightColors: ThemeColors = {
   error: '#F44336',
   cardGradient: ['#FFFFFF', '#F0F0F0'] as const,
   buttonGradient: ['#4A90E2', '#50E3C2'] as const,
+  primaryLight: undefined,
+  shadow: undefined,
+  buttonText: undefined
 };
 
 const darkColors: ThemeColors = {
@@ -60,6 +67,9 @@ const darkColors: ThemeColors = {
   error: '#E57373',
   cardGradient: ['#2C2C2C', '#222222'] as const,
   buttonGradient: ['#6A9FE6', '#60E8CB'] as const,
+  primaryLight: undefined,
+  shadow: undefined,
+  buttonText: undefined
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -92,4 +102,3 @@ export const useTheme = () => {
   }
   return context;
 };
-

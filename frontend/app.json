@@ -1,48 +1,73 @@
 {
   "expo": {
-    "name": "product",
-    "slug": "product",
+    "name": "yoca",
+    "slug": "yoca",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "orientation": "portrait", 
+    "icon": "./assets/images/logo.png",
+    "splash": {
+      "image": "./assets/images/logo.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#8da6ad" 
+    },
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 30000
+    },
+    "assetBundlePatterns": ["**/*"], 
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "chronicapp.techtuskers"
+      "buildNumber": "1.0.0",
+      "icon": "./assets/images/logo.png", 
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to provide better services."
+      }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "chronicapp.techtuskers"
+      "versionCode": 1,
+      "icon": "./assets/images/logo.png",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.ico"
     },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
+    "notification": {
+      "icon": "./assets/images/notification-icon.png",
+      "color": "#ffffff", 
+      "iosDisplayInForeground": true 
     },
     "extra": {
       "eas": {
-        "projectId": "80ed1a94-4f1d-4c6d-9bb9-0e20188660d8"
+        "projectId": "ea62cf93-7e28-47f5-9f88-448c1e3beb47" 
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app wants to access your photos."
+        }
+      ]
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "scheme": "yoca",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "visible": "immersive",
+      "backgroundColor": "#000000"
+    },
+    "androidNavigationBar": {
+      "visible": "immersive",
+      "backgroundColor": "#000000"
+    },
+    "privacy": "public",
+    "description": "LIVE BETTER, FEEL BETTER"
   }
 }

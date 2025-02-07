@@ -15,6 +15,7 @@ const HamburgerMenu: React.FC<DrawerContentComponentProps> = (props) => {
     { name: 'Prescriptions', label: 'Prescriptions', icon: 'medical-outline' },
     { name: 'Doctors', label: 'Doctor Recommendations', icon: 'people-outline' },
     { name: 'Telemedicine', label: 'Telemedicine', icon: 'videocam-outline' },
+    { name: 'Analysis', label: 'Generate Analysis', icon: 'analysis-outline' },
   ];
 
   return (

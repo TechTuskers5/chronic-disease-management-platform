@@ -1,67 +1,91 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { Ionicons } from '@expo/vector-icons';
-import Header from '../components/Header';
-import Card from '../components/Card';
+import type React from "react"
+import { useState } from "react"
+import { View, Text, StyleSheet, FlatList } from "react-native"
+import { useTheme } from "@/context/ThemeContext"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import GradientBackground from "@/components/GradientBackground"
+import AnimatedCard from "@/components/AnimatedCard"
+import ElegantButton from "@/components/ElegantButton"
 
 interface Doctor {
-  id: string;
-  name: string;
-  specialty: string;
-  available: boolean;
+  id: string
+  name: string
+  specialty: string
+  available: boolean
 }
 
 const TelemedicineScreen: React.FC = () => {
-  const { colors } = useTheme();
+  const { colors } = useTheme()
   const [doctors, setDoctors] = useState<Doctor[]>([
-    { id: '1', name: 'Dr. John Smith', specialty: 'Cardiologist', available: true },
-    { id: '2', name: 'Dr. Emily Brown', specialty: 'Dermatologist', available: false },
-    { id: '3', name: 'Dr. Michael Lee', specialty: 'Neurologist', available: true },
-  ]);
+    { id: "1", name: "Dr. John Smith", specialty: "Cardiologist", available: true },
+    { id: "2", name: "Dr. Emily Brown", specialty: "Dermatologist", available: false },
+    { id: "3", name: "Dr. Michael Lee", specialty: "Neurologist", available: true },
+  ])
 
   const renderDoctorItem = ({ item, index }: { item: Doctor; index: number }) => (
-    <Card style={styles.doctorItem} index={index}>
+    <AnimatedCard style={styles.doctorItem} index={index}>
       <View style={styles.doctorInfo}>
         <Text style={[styles.doctorName, { color: colors.text }]}>{item.name}</Text>
         <Text style={[styles.doctorSpecialty, { color: colors.textSecondary }]}>{item.specialty}</Text>
       </View>
-      <TouchableOpacity
-        style={[
-          styles.callButton,
-          { backgroundColor: item.available ? colors.primary : colors.textSecondary }
-        ]}
-        disabled={!item.available}
-      >
-        <Ionicons name="videocam-outline" size={24} color="white" />
-      </TouchableOpacity>
-    </Card>
-  );
+      <ElegantButton
+        title="Call"
+        onPress={() => {
+          /* Handle video call */
+        }}
+        color={item.available ? "primary" : "secondary"}
+        style={styles.callButton}
+        textStyle={styles.callButtonText}
+      />
+    </AnimatedCard>
+  )
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header title="Telemedicine" subtitle="Connect with doctors virtually" />
-      <FlatList
-        data={doctors}
-        renderItem={renderDoctorItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
-  );
-};
+    <GradientBackground>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Telemedicine</Text>
+        <Text style={styles.headerSubtext}>Connect with doctors virtually</Text>
+      </View>
+      <Animated.View entering={FadeInDown.delay(200)} style={[styles.content, { backgroundColor: colors.background }]}>
+        <FlatList
+          data={doctors}
+          renderItem={renderDoctorItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+        />
+      </Animated.View>
+    </GradientBackground>
+  )
+}
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
+    padding: 20,
+    paddingTop: 60,
+    paddingBottom: 30,
+  },
+  headerText: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "white",
+  },
+  headerSubtext: {
+    fontSize: 16,
+    color: "white",
+    opacity: 0.8,
+  },
+  content: {
     flex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   listContainer: {
     padding: 20,
   },
   doctorItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
     marginBottom: 15,
   },
@@ -70,17 +94,19 @@ const styles = StyleSheet.create({
   },
   doctorName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   doctorSpecialty: {
     fontSize: 14,
     marginTop: 5,
   },
   callButton: {
-    padding: 10,
-    borderRadius: 25,
+    width: 100,
   },
-});
+  callButtonText: {
+    fontSize: 14,
+  },
+})
 
-export default TelemedicineScreen;
+export default TelemedicineScreen
 

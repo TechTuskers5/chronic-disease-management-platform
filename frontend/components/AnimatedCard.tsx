@@ -1,70 +1,38 @@
-import React from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming, useSharedValue, useAnimatedReaction } from 'react-native-reanimated';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useTheme } from '../context/ThemeContext';
+import type React from "react"
+import { StyleSheet, type ViewStyle } from "react-native"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import { useTheme } from "@/context/ThemeContext"
 
 interface AnimatedCardProps {
-  children: React.ReactNode;
-  style?: ViewStyle;
-  index: number;
-  isVisible: boolean;
+  children: React.ReactNode
+  style?: ViewStyle
+  index?: number
 }
 
-const AnimatedCard: React.FC<AnimatedCardProps> = ({ children, style, index, isVisible }) => {
-  const { colors } = useTheme();
-  const opacity = useSharedValue(0);
-  const translateY = useSharedValue(50);
-  const scale = useSharedValue(0.95);
-
-  useAnimatedReaction(
-    () => isVisible,
-    (visible) => {
-      if (visible) {
-        opacity.value = withTiming(1, { duration: 500 });
-        translateY.value = withTiming(0, { duration: 500 });
-        scale.value = withTiming(1, { duration: 500 });
-      }
-    },
-    [isVisible]
-  );
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-      transform: [
-        { translateY: translateY.value },
-        { scale: scale.value },
-      ],
-    };
-  });
+const AnimatedCard: React.FC<AnimatedCardProps> = ({ children, style, index = 0 }) => {
+  const { colors } = useTheme()
 
   return (
-    <Animated.View style={[styles.card, style, animatedStyle, { animationDelay: `${index * 100}ms` }]}>
-      <LinearGradient
-        colors={colors.cardGradient}
-        style={StyleSheet.absoluteFill}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      />
+    <Animated.View
+      entering={FadeInDown.delay(index * 100).springify()}
+      style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.shadow }, style]}
+    >
       {children}
     </Animated.View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 20,
-    overflow: 'hidden',
-    elevation: 5,
-    shadowColor: '#000',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
+    elevation: 4,
   },
-});
+})
 
-export default AnimatedCard;
+export default AnimatedCard
 

@@ -1,24 +1,25 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { Ionicons } from '@expo/vector-icons';
-import GradientBackground from '../components/GradientBackground';
-import AnimatedCard from '../components/AnimatedCard';
-import ElegantButton from '../components/ElegantButton';
+import type React from "react"
+import { View, Text, StyleSheet, ScrollView } from "react-native"
+import { useTheme } from "@/context/ThemeContext"
+import { Ionicons } from "@expo/vector-icons"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import GradientBackground from "@/components/GradientBackground"
+import AnimatedCard from "@/components/AnimatedCard"
+import ElegantButton from "@/components/ElegantButton"
 
 const PrescriptionScreen: React.FC = () => {
-  const { colors } = useTheme();
+  const { colors } = useTheme()
 
   const prescriptions = [
-    { id: 1, name: 'Metformin', dosage: '500mg', frequency: 'Twice daily', time: '9:00 AM, 9:00 PM' },
-    { id: 2, name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily', time: '8:00 AM' },
-    { id: 3, name: 'Atorvastatin', dosage: '20mg', frequency: 'Once daily at bedtime', time: '10:00 PM' },
-  ];
+    { id: 1, name: "Metformin", dosage: "500mg", frequency: "Twice daily", time: "9:00 AM, 9:00 PM" },
+    { id: 2, name: "Lisinopril", dosage: "10mg", frequency: "Once daily", time: "8:00 AM" },
+    { id: 3, name: "Atorvastatin", dosage: "20mg", frequency: "Once daily at bedtime", time: "10:00 PM" },
+  ]
 
   const handleFindPharmacy = () => {
     // Implement find pharmacy logic
-    console.log('Finding nearby pharmacies...');
-  };
+    console.log("Finding nearby pharmacies...")
+  }
 
   return (
     <GradientBackground>
@@ -26,10 +27,13 @@ const PrescriptionScreen: React.FC = () => {
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Prescriptions</Text>
         </View>
-        <View style={[styles.content, { backgroundColor: colors.background }]}>
+        <Animated.View
+          entering={FadeInDown.delay(200)}
+          style={[styles.content, { backgroundColor: colors.background }]}
+        >
           {prescriptions.map((prescription, index) => (
-            <AnimatedCard key={prescription.id} style={styles.prescriptionItem} index={index} isVisible={true}>
-              <View style={[styles.prescriptionIcon, { backgroundColor: colors.primary + '20' }]}>
+            <AnimatedCard key={prescription.id} style={styles.prescriptionItem} index={index}>
+              <View style={[styles.prescriptionIcon, { backgroundColor: colors.primary + "20" }]}>
                 <Ionicons name="medical" size={24} color={colors.primary} />
               </View>
               <View style={styles.prescriptionDetails}>
@@ -49,11 +53,11 @@ const PrescriptionScreen: React.FC = () => {
             color="secondary"
             style={styles.findPharmacyButton}
           />
-        </View>
+        </Animated.View>
       </ScrollView>
     </GradientBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -66,8 +70,8 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   content: {
     flex: 1,
@@ -77,8 +81,8 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   prescriptionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
     padding: 15,
   },
@@ -86,8 +90,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 15,
   },
   prescriptionDetails: {
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
   },
   prescriptionName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   prescriptionInfo: {
     fontSize: 14,
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
   findPharmacyButton: {
     marginTop: 20,
   },
-});
+})
 
-export default PrescriptionScreen;
+export default PrescriptionScreen
 

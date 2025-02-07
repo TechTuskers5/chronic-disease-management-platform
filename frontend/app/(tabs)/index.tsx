@@ -9,6 +9,7 @@ import PrescriptionScreen from '@/screens/PrescriptionScreen';
 import DoctorRecommendationsScreen from '@/screens/DoctorRecommendationsScreen';
 import HamburgerMenu from '@/components/HamburgerMenu';
 import TelemedicineScreen from '@/screens/TelemedicineScreen';
+import AnalysisScreen from '@/screens/AnalysisScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Drawer.Screen name="Prescriptions" component={PrescriptionScreen} />
           <Drawer.Screen name="Doctors" component={DoctorRecommendationsScreen} />
           <Drawer.Screen name="Telemedicine" component={TelemedicineScreen} />
+          <Drawer.Screen name="Analysis" component={AnalysisScreen} />
         </Drawer.Navigator>
     </ThemeProvider>
   );

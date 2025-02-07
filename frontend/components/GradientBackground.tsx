@@ -1,42 +1,34 @@
-import React, { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useTheme } from '../context/ThemeContext';
+import type React from "react"
+import { StyleSheet, type ViewStyle } from "react-native"
+import { LinearGradient } from "expo-linear-gradient"
+import { useTheme } from "../context/ThemeContext"
 
 interface GradientBackgroundProps {
-  children: ReactNode;
-  style?: object;
+  children: React.ReactNode
+  style?: ViewStyle
 }
 
 const GradientBackground: React.FC<GradientBackgroundProps> = ({ children, style }) => {
-  const { colors, theme } = useTheme();
+  const { colors } = useTheme()
 
   return (
-    <View style={[styles.container, style]}>
-      <LinearGradient
-        colors={[colors.primary, colors.secondary]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={StyleSheet.absoluteFillObject}
-      />
-      <View style={[
-        styles.content,
-        { backgroundColor: theme === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.85)' }
-      ]}>
-        {children}
-      </View>
-    </View>
-  );
-};
+    <LinearGradient
+      colors={[colors.primary, colors.secondary]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={[styles.container, style]}
+    >
+      {children}
+    </LinearGradient>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
-    flex: 1,
-  },
-});
+})
 
-export default GradientBackground;
+export default GradientBackground
+
 
